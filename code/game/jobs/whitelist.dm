@@ -1,4 +1,4 @@
-#define WHITELISTFILE "data/whitelist.txt"
+#define WHITELISTFILE "config/whitelist.txt"
 
 var/list/whitelist = list()
 
@@ -15,6 +15,32 @@ var/list/whitelist = list()
 	if(!whitelist)
 		return 0
 	return ("[M.ckey]" in whitelist)
+
+/proc/check_whitelist_ckey(var/ckey)
+	if(!whitelist)
+		return 0
+	return (ckey in whitelist)
+
+/hook/startup/proc/loadSecWhitelist()
+	if(config.usesecwhitelist)
+		load_secwhitelist()
+	return 1
+
+var/list/secwhitelist = list()
+
+/proc/load_secwhitelist()
+	secwhitelist = file2list("config/secwhitelist.txt")
+	if(!secwhitelist.len)	secwhitelist = null
+
+/proc/check_secwhitelist(mob/M /*, var/rank*/)
+	if(!secwhitelist)
+		return 0
+	return ("[M.ckey]" in secwhitelist)
+
+/proc/check_secwhitelist_ckey(var/ckey)
+	if(!secwhitelist)
+		return 0
+	return (ckey in secwhitelist)
 
 /var/list/alien_whitelist = list()
 

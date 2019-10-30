@@ -23,8 +23,9 @@ var/jobban_keylist[0]		//to store the keys & ranks
 		if (SSjobs.guest_jobbans(rank))
 			if(config.guest_jobban && IsGuestKey(M.key))
 				return "Guest Job-ban"
-			if(config.usewhitelist && !check_whitelist(M))
-				return "Whitelisted Job"
+			if(config.usesecwhitelist && check_secwhitelist(M))
+				if(rank in list("Head of Security", "Warden", "Detective", "Security Officer", ))
+					return "Sec Whitelisted"
 		return ckey_is_jobbanned(M.ckey, rank)
 	return 0
 
